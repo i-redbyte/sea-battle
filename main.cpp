@@ -1,6 +1,17 @@
 #include <iostream>
+#include <iterator>
+#include <fstream>
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+std::string get_logo() {
+    std::cout << "START" << std::endl;
+    std::string filename = "ascii_logo.txt";
+    std::string logo;
+    std::ifstream ifs{filename.c_str()};
+    std::getline(ifs, logo, '\0');
+    std::cout << logo << std::endl;
+    return logo;
+}
+
+int main(int args, const char **argv) {
+
 }
