@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(sea_battle)
 find_package (Threads)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -pthread")
 
 add_definitions(
         -DSERVER_EXAMPLE
