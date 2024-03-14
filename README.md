@@ -27,5 +27,3 @@ Playing with C ++
            ~`~".,."~`~".,                 "~`~".,."~
                           ".,."~`~
 ```
-
-Art taken from https://textart.io/art/tag/boat/1
