@@ -19,51 +19,88 @@ bool Board::placeShip(int x, int y, int length, bool horizontal) {
 
 bool Board::shoot(int x, int y) {
     if (x < 0 || x >= size || y < 0 || y >= size) {
-        std::cout << "Shot out of bounds.\n";
+        std::cout << "Выстрел за пределы поля.\\n";
         return false;
     }
     if (grid[y][x] == -1) {
-        std::cout << "Location already shot.\n";
+        std::cout << "Сюда уже стреляли.\\n";
         return false;
     }
 
     for (auto &ship: ships) {
         if (ship->containsPoint(x, y)) {
             ship->hit(x, y);
-            grid[y][x] = -1; // Отмечаем попадание
-            std::cout << (ship->isSunk() ? "Ship sunk!\n" : "Hit!\n");
+            grid[y][x] = -1;
+            std::cout << (ship->isSunk() ? "Корабль потоплен!\n" : "Попадание!\n");
             return true;
         }
     }
 
-    grid[y][x] = -1; // Отмечаем промах
-    std::cout << "Miss.\n";
+    grid[y][x] = -1;
+    std::cout << "Промах.\n";
     return false;
 }
 
-void Board::display() const {
-    for (const auto &row: grid) {
-        for (int cell: row) {
-            switch (cell) {
-                case 1:
-                    std::cout << "S ";
-                    break;
-                case -1:
-                    std::cout << "* ";
-                    break;
-                default:
-                    std::cout << ". ";
+//void Board::display() const {
+//    for (const auto &row: grid) {
+//        for (int cell: row) {
+//            switch (cell) {
+//                case 1:
+//                    std::cout << "S ";
+//                    break;
+//                case -1:
+//                    std::cout << "* ";
+//                    break;
+//                default:
+//                    std::cout << ". ";
+//            }
+//        }
+//        std::cout << "\n";
+//    }
+//}
+
+void Board::display(bool showShips) const {
+    std::cout << "  ";
+    for (int i = 0; i < size; ++i) {
+        std::cout << i << " ";
+    }
+    std::cout << "\n";
+    for (int y = 0; y < size; ++y) {
+        std::cout << y << " ";
+        for (int x = 0; x < size; ++x) {
+            if (grid[y][x] == 0) {
+                std::cout << ". ";
+            } else if (grid[y][x] == -1) {
+                std::cout << "* ";
+            } else if (grid[y][x] > 0 && showShips) {
+                std::cout << "S ";
+            } else if (grid[y][x] > 0 && !showShips) {
+                std::cout << ". ";
             }
         }
         std::cout << "\n";
     }
 }
 
+void Board::displayRow(int y, bool showShips) const {
+    for (int x = 0; x < size; ++x) {
+        if (grid[y][x] == 0) {
+            std::cout << ". ";
+        } else if (grid[y][x] == -1) {
+            std::cout << "* ";
+        } else if (grid[y][x] > 0 && showShips) {
+            std::cout << "S ";
+        } else if (grid[y][x] > 0 && !showShips) {
+            std::cout << ". ";
+        }
+    }
+}
+
 bool Board::isGameOver() const {
     for (const auto &ship: ships) {
-        if (!ship->isSunk()) return false; // Если есть хотя бы один непотопленный корабль, игра продолжается
+        if (!ship->isSunk()) return false;
     }
-    return true; // Все корабли потоплены
+    return true;
 }
 
 bool Board::checkPlacement(int x, int y, int length, bool horizontal) const {
@@ -76,6 +113,39 @@ bool Board::checkPlacement(int x, int y, int length, bool horizontal) const {
         if (y + length > size) return false;
         for (int i = 0; i < length; ++i) {
             if (grid[y + i][x] != 0) return false;
+        }
+    }
+    return true;
+}
+
+bool Board::canPlaceShip(int x, int y, int length, bool horizontal) const {
+    if (horizontal) {
+        if (x + length > size) return false;
+        for (int i = 0; i < length; ++i) {
+            if (grid[y][x + i] != 0) return false;
+            for (int dx = -1; dx <= 1; ++dx) {
+                for (int dy = -1; dy <= 1; ++dy) {
+                    int nx = x + i + dx;
+                    int ny = y + dy;
+                    if (nx >= 0 && nx < size && ny >= 0 && ny < size && grid[ny][nx] != 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+    } else {
+        if (y + length > size) return false;
+        for (int i = 0; i < length; ++i) {
+            if (grid[y + i][x] != 0) return false;
+            for (int dx = -1; dx <= 1; ++dx) {
+                for (int dy = -1; dy <= 1; ++dy) {
+                    int nx = x + dx;
+                    int ny = y + i + dy;
+                    if (nx >= 0 && nx < size && ny >= 0 && ny < size && grid[ny][nx] != 0) {
+                        return false;
+                    }
+                }
+            }
         }
     }
     return true;
