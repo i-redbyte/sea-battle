@@ -3,9 +3,9 @@
 Ship::Ship(int length, int x, int y, bool horizontal) {
     for (int i = 0; i < length; ++i) {
         if (horizontal) {
-            coordinates.push_back({x + i, y});
+            coordinates.emplace_back(x + i, y);
         } else {
-            coordinates.push_back({x, y + i});
+            coordinates.emplace_back(x, y + i);
         }
         hits.push_back(false);
     }

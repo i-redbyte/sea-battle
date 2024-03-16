@@ -24,7 +24,7 @@ void Board::markSurroundingCellsAsMissed(const Ship &ship) {
                 int nx = coord.first + dx;
                 int ny = coord.second + dy;
                 if (nx >= 0 && nx < size && ny >= 0 && ny < size && grid[ny][nx] == 0) {
-                    grid[ny][nx] = -1; // Отмечаем как промах
+                    grid[ny][nx] = -1;
                 }
             }
         }

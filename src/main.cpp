@@ -19,6 +19,7 @@ void printRules() {
               << std::endl;
     std::cout << "4. После расстановки всех кораблей начнется бой с компьютером." << std::endl;
     std::cout << "Управление: введите 'r' для перестановки кораблей, 'b' для начала боя." << std::endl;
+    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 }
 
 void placeShipsManually(HumanPlayer &player, Board &board) {
@@ -63,7 +64,7 @@ int main() {
     while (!humanBoard.isGameOver() && !aiBoard.isGameOver()) {
         std::cout << "\nПоле противника:\t\t\tВаше поле:\n";
         for (int y = 0; y < humanBoard.getSize(); ++y) {
-            aiBoard.displayRow(y, false);
+            aiBoard.displayRow(y, true);
             std::cout << "\t";
             humanBoard.displayRow(y, true);
             std::cout << "\n";
@@ -76,7 +77,9 @@ int main() {
             std::cout << "Ход компьютера.\n";
             aiPlayer.makeMove(humanBoard);
         }
-
+        if (humanBoard.isGameOver() || aiBoard.isGameOver()) {
+            break;
+        }
         isHumanTurn = !isHumanTurn;
     }
 
