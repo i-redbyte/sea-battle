@@ -9,6 +9,8 @@ include_directories(include)
 
 set(SOURCES
         src/main.cpp
+        src/Board.cpp
+        src/Ship.cpp
         )
 
 add_executable(SeaBattle ${SOURCES})

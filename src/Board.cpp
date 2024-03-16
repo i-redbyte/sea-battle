@@ -1,60 +1,69 @@
 #include "Board.h"
 #include <iostream>
 
-Board::Board(int size) : size(size), shipsCount(0) {
+Board::Board(int size) : size(size) {
     grid = std::vector<std::vector<int>>(size, std::vector<int>(size, 0));
 }
 
 bool Board::placeShip(int x, int y, int length, bool horizontal) {
-    if (!checkPlacement(x, y, length, horizontal)) {
-        return false;
+    if (!checkPlacement(x, y, length, horizontal)) return false;
+
+    auto ship = std::make_shared<Ship>(length, x, y, horizontal);
+    ships.push_back(ship);
+
+    for (const auto &coord: ship->getCoordinates()) {
+        grid[coord.second][coord.first] = 1;
     }
-    for (int i = 0; i < length; ++i) {
-        if (horizontal) {
-            grid[y][x + i] = 1;
-        } else {
-            grid[y + i][x] = 1;
-        }
-    }
-    ++shipsCount;
     return true;
 }
 
 bool Board::shoot(int x, int y) {
-    if (x < 0 || x >= size || y < 0 || y >= size || grid[y][x] == -1) {
-        std::cout << "Invalid shot or already shot at this location.\n";
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        std::cout << "Shot out of bounds.\n";
+        return false;
+    }
+    if (grid[y][x] == -1) {
+        std::cout << "Location already shot.\n";
         return false;
     }
 
-    if (grid[y][x] == 1) {
-        grid[y][x] = -1;
-        std::cout << "Hit!\n";
-        return true;
-    } else {
-        grid[y][x] = -1;
-        std::cout << "Miss.\n";
-        return false;
+    for (auto &ship: ships) {
+        if (ship->containsPoint(x, y)) {
+            ship->hit(x, y);
+            grid[y][x] = -1; // Отмечаем попадание
+            std::cout << (ship->isSunk() ? "Ship sunk!\n" : "Hit!\n");
+            return true;
+        }
     }
+
+    grid[y][x] = -1; // Отмечаем промах
+    std::cout << "Miss.\n";
+    return false;
 }
 
-void Board::display() {
-    for (const auto &row : grid) {
-        for (int cell : row) {
-            if (cell == 0) {
-                std::cout << ". ";
-            } else if (cell == -1) {
-                std::cout << "* ";
-            } else {
-                std::cout << "S ";
+void Board::display() const {
+    for (const auto &row: grid) {
+        for (int cell: row) {
+            switch (cell) {
+                case 1:
+                    std::cout << "S ";
+                    break;
+                case -1:
+                    std::cout << "* ";
+                    break;
+                default:
+                    std::cout << ". ";
             }
         }
         std::cout << "\n";
     }
 }
 
-bool Board::isGameOver() {
-    // Эта функция должна проверить, все ли корабли потоплены
-    return false; // Заглушка
+bool Board::isGameOver() const {
+    for (const auto &ship: ships) {
+        if (!ship->isSunk()) return false; // Если есть хотя бы один непотопленный корабль, игра продолжается
+    }
+    return true; // Все корабли потоплены
 }
 
 bool Board::checkPlacement(int x, int y, int length, bool horizontal) const {
