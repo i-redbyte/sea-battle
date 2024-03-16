@@ -33,6 +33,7 @@ bool Board::shoot(int x, int y) {
                 ship->hit(x, y);
                 grid[y][x] = 2;
                 std::cout << (ship->isSunk() ? "Корабль потоплен!\n" : "Попадание!\n");
+                display(false);
                 return true;
             }
         }
