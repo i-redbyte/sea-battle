@@ -24,6 +24,7 @@ void HumanPlayer::makeMove(Board& enemyBoard) {
     bool hitAgain;
     do {
         int x, y;
+        if (enemyBoard.isGameOver()) return;
         std::cout << "Введите X и Y для выстрела (0-" << enemyBoard.getSize() - 1 << "): ";
         std::cin >> x >> y;
         hitAgain = enemyBoard.shoot(x, y);

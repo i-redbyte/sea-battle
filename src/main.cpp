@@ -10,16 +10,26 @@ void clearInputStream() {
 }
 
 void printRules() {
-    std::cout << "Правила игры 'Морской бой':" << std::endl;
-    std::cout << "1. Игра проходит на поле 10x10." << std::endl;
+    std::cout
+            << "Правила игры 'Морской бой':"
+            << std::endl;
+    std::cout
+            << "1. Игра проходит на поле 10x10."
+            << std::endl;
     std::cout
             << "2. У вас есть 4 однопалубных, 3 двухпалубных, 2 трехпалубных и 1 четырехпалубный корабль для расстановки."
             << std::endl;
     std::cout << "3. Введите координаты (x y) и ориентацию (h - горизонтально, v - вертикально) для каждого корабля."
               << std::endl;
-    std::cout << "4. После расстановки всех кораблей начнется бой с компьютером." << std::endl;
-    std::cout << "Управление: введите 'r' для перестановки кораблей, 'b' для начала боя." << std::endl;
-    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+    std::cout
+            << "4. После расстановки всех кораблей начнется бой с компьютером."
+            << std::endl;
+    std::cout
+            << "Управление: введите 'r' для перестановки кораблей, 'b' для начала боя."
+            << std::endl;
+    std::cout
+            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            << std::endl;
 }
 
 void placeShipsManually(HumanPlayer &player, Board &board) {
@@ -54,8 +64,8 @@ int main() {
     AIPlayer aiPlayer("Компьютер");
 
     humanPlayer.placeShips(humanBoard);
-//    placeShipsManually(humanPlayer, humanBoard);
-    aiPlayer.placeShips(aiBoard);
+    placeShipsManually(humanPlayer, humanBoard);
+//    aiPlayer.placeShips(aiBoard); // got test
 
     std::cout << "Начало игры 'Морской бой'!\n";
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -77,9 +87,7 @@ int main() {
             std::cout << "Ход компьютера.\n";
             aiPlayer.makeMove(humanBoard);
         }
-        if (humanBoard.isGameOver() || aiBoard.isGameOver()) {
-            break;
-        }
+        if (humanBoard.isGameOver() || aiBoard.isGameOver()) break;
         isHumanTurn = !isHumanTurn;
     }
 
