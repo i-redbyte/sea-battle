@@ -11,6 +11,8 @@ set(SOURCES
         src/main.cpp
         src/Board.cpp
         src/Ship.cpp
+        src/AIPlayer.cpp
+        src/HumanPlayer.cpp
         )
 
 add_executable(SeaBattle ${SOURCES})

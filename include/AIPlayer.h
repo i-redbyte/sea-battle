@@ -9,12 +9,9 @@ class AIPlayer : public Player {
 public:
     using Player::Player;
 
-    void makeMove(Board& enemyBoard) override {
-        std::srand(std::time(nullptr));
-        int x = std::rand() % Board::boardSize;
-        int y = std::rand() % Board::boardSize;
-        enemyBoard.shoot(x, y);
-    }
+    void makeMove(Board &board) override;
+
+    void placeShips(Board &board) override;
 };
 
 #endif // AIPLAYER_H
