@@ -52,8 +52,8 @@ int main() {
     HumanPlayer humanPlayer("Игрок");
     AIPlayer aiPlayer("Компьютер");
 
-//    humanPlayer.placeShips(humanBoard);
-    placeShipsManually(humanPlayer, humanBoard);
+    humanPlayer.placeShips(humanBoard);
+//    placeShipsManually(humanPlayer, humanBoard);
     aiPlayer.placeShips(aiBoard);
 
     std::cout << "Начало игры 'Морской бой'!\n";
@@ -63,10 +63,8 @@ int main() {
     while (!humanBoard.isGameOver() && !aiBoard.isGameOver()) {
         std::cout << "\nПоле противника:\t\t\tВаше поле:\n";
         for (int y = 0; y < humanBoard.getSize(); ++y) {
-            // Вывод строки поля противника (без показа кораблей)
             aiBoard.displayRow(y, false);
             std::cout << "\t";
-            // Вывод строки своего поля (с показом кораблей)
             humanBoard.displayRow(y, true);
             std::cout << "\n";
         }
@@ -79,7 +77,7 @@ int main() {
             aiPlayer.makeMove(humanBoard);
         }
 
-        isHumanTurn = !isHumanTurn; // Смена очереди хода
+        isHumanTurn = !isHumanTurn;
     }
 
     if (humanBoard.isGameOver()) {
@@ -90,48 +88,3 @@ int main() {
 
     return 0;
 }
-
-//int main() {
-//    printRules();
-//
-//    Board humanBoard(10), aiBoard(10);
-//    HumanPlayer humanPlayer("Игрок");
-//    AIPlayer aiPlayer("Компьютер");
-//
-////    placeShipsManually(humanPlayer, humanBoard);
-//    aiPlayer.placeShips(aiBoard);
-//    humanPlayer.placeShips(humanBoard);
-//    std::cout << "Нажмите 'b' для начала боя: ";
-//    char startGame;
-//    std::cin >> startGame;
-//    clearInputStream();
-//
-//    if (startGame != 'b' && startGame != 'B') {
-//        std::cout << "Игра окончена." << std::endl;
-//        return 0;
-//    }
-//
-//    std::srand(static_cast<unsigned int>(std::time(nullptr)));
-//    bool isHumanTurn = std::rand() % 2 == 0;
-//
-//    while (!humanBoard.isGameOver() && !aiBoard.isGameOver()) {
-//        if (isHumanTurn) {
-//            std::cout << "Ваш ход." << std::endl;
-//            humanPlayer.makeMove(aiBoard);
-//        } else {
-//            std::cout << "Ход компьютера." << std::endl;
-//            aiPlayer.makeMove(humanBoard);
-//        }
-//
-//        isHumanTurn = !isHumanTurn;
-//    }
-//
-//    if (humanBoard.isGameOver()) {
-//        std::cout << "Компьютер выиграл!" << std::endl;
-//    } else {
-//        std::cout << "Поздравляем, вы выиграли!" << std::endl;
-//    }
-//
-//    return 0;
-//}
-
