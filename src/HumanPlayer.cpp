@@ -19,3 +19,17 @@ void HumanPlayer::placeShips(Board& board) {
         }
     }
 }
+
+void HumanPlayer::makeMove(Board& enemyBoard) {
+    bool hitAgain;
+    do {
+        int x, y;
+        std::cout << "Введите X и Y для выстрела (0-" << enemyBoard.getSize() - 1 << "): ";
+        std::cin >> x >> y;
+        hitAgain = enemyBoard.shoot(x, y);
+        if (!hitAgain) {
+            std::cout << "Попробуйте еще раз." << std::endl;
+            clearInputStream();
+        }
+    } while (hitAgain);
+}

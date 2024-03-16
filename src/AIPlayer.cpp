@@ -25,9 +25,12 @@ void AIPlayer::placeShips(Board& board) {
 }
 
 
-void AIPlayer::makeMove(Board& board) {
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    int x = std::rand() % board.getSize();
-    int y = std::rand() % board.getSize();
-    board.shoot(x, y);
+void AIPlayer::makeMove(Board& enemyBoard) {
+    bool hitAgain;
+    do {
+        int x = std::rand() % enemyBoard.getSize();
+        int y = std::rand() % enemyBoard.getSize();
+        hitAgain = enemyBoard.shoot(x, y);
+    } while (hitAgain);
 }
+
