@@ -22,28 +22,25 @@ bool Board::shoot(int x, int y) {
         std::cout << "Выстрел за пределы поля.\n";
         return false;
     }
-    if (grid[y][x] == -1) {
+    if (grid[y][x] == -1 || grid[y][x] == 2) {
         std::cout << "Сюда уже стреляли.\n";
         return false;
     }
 
-    bool hit = false;
-    for (auto &ship: ships) {
-        if (ship->containsPoint(x, y)) {
-            ship->hit(x, y);
-            grid[y][x] = -1;
-            std::cout << (ship->isSunk() ? "Корабль потоплен!\n" : "Попадание!\n");
-            hit = true;
-            break;
+    if (grid[y][x] == 1) {
+        for (auto& ship : ships) {
+            if (ship->containsPoint(x, y)) {
+                ship->hit(x, y);
+                grid[y][x] = 2;
+                std::cout << (ship->isSunk() ? "Корабль потоплен!\n" : "Попадание!\n");
+                return true;
+            }
         }
     }
 
-    if (!hit) {
-        grid[y][x] = -1;
-        std::cout << "Промах.\n";
-        return false;
-    }
-    return true;
+    grid[y][x] = -1;
+    std::cout << "Промах.\n";
+    return false;
 }
 
 void Board::display(bool showShips) const {
@@ -58,13 +55,13 @@ void Board::display(bool showShips) const {
             if (grid[y][x] == 0) {
                 std::cout << ". ";
             } else if (grid[y][x] == -1) {
-                std::cout << "Я ";
-            } else if (grid[y][x] > 0) {
-                if (showShips) {
-                    std::cout << "S ";
-                } else {
-                    std::cout << ". ";
-                }
+                std::cout << "* ";
+            } else if (grid[y][x] == 1 && showShips) {
+                std::cout << "S ";
+            } else if (grid[y][x] == 2) {
+                std::cout << (showShips ? "X " : "Z ");
+            } else {
+                std::cout << ". ";
             }
         }
         std::cout << "\n";
@@ -76,13 +73,15 @@ void Board::displayRow(int y, bool showShips) const {
         if (grid[y][x] == 0) {
             std::cout << ". ";
         } else if (grid[y][x] == -1) {
-            std::cout << "Я ";
-        } else if (grid[y][x] > 0) {
+            std::cout << "* ";
+        } else if (grid[y][x] == 1) {
             if (showShips) {
                 std::cout << "S ";
             } else {
                 std::cout << ". ";
             }
+        } else if (grid[y][x] == 2) {
+            std::cout << (showShips ? "X " : "Z ");
         }
     }
 }

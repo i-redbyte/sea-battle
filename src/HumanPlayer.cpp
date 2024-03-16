@@ -29,7 +29,7 @@ void HumanPlayer::makeMove(Board& enemyBoard) {
         hitAgain = enemyBoard.shoot(x, y);
         if (!hitAgain) {
             std::cout << "Попробуйте еще раз." << std::endl;
-            clearInputStream();
+            HumanPlayer::clearInputStream();
         }
     } while (hitAgain);
 }

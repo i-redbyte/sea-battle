@@ -1,8 +1,9 @@
 #ifndef HUMANPLAYER_H
 #define HUMANPLAYER_H
 
+#include "iostream"
 #include "Player.h"
-#include <iostream>
+#include <Board.h>
 
 class HumanPlayer : public Player {
 public:
@@ -11,6 +12,11 @@ public:
     void makeMove(Board& board) override;
 
     void placeShips(Board& board) override;
+
+    static void clearInputStream() {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 };
 
 #endif // HUMANPLAYER_H
