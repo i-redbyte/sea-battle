@@ -35,7 +35,7 @@ void placeShipsManually(HumanPlayer &player, Board &board) {
             std::cin >> x >> y >> orientation;
             bool horizontal = orientation == 'h' || orientation == 'H';
 
-            if (board.placeShip(x, y, i + 1, horizontal)) {
+            if (board.canPlaceShip(x, y, i + 1, horizontal) && board.placeShip(x, y, i + 1, horizontal)) {
                 shipsToPlace[i]--;
             } else {
                 std::cout << "Невозможно разместить корабль. Попробуйте еще раз." << std::endl;

@@ -101,31 +101,18 @@ bool Board::checkPlacement(int x, int y, int length, bool horizontal) const {
 }
 
 bool Board::canPlaceShip(int x, int y, int length, bool horizontal) const {
-    if (horizontal) {
-        if (x + length > size) return false;
-        for (int i = 0; i < length; ++i) {
-            if (grid[y][x + i] != 0) return false;
-            for (int dx = -1; dx <= 1; ++dx) {
-                for (int dy = -1; dy <= 1; ++dy) {
-                    int nx = x + i + dx;
-                    int ny = y + dy;
-                    if (nx >= 0 && nx < size && ny >= 0 && ny < size && grid[ny][nx] != 0) {
-                        return false;
-                    }
-                }
-            }
-        }
-    } else {
-        if (y + length > size) return false;
-        for (int i = 0; i < length; ++i) {
-            if (grid[y + i][x] != 0) return false;
-            for (int dx = -1; dx <= 1; ++dx) {
-                for (int dy = -1; dy <= 1; ++dy) {
-                    int nx = x + dx;
-                    int ny = y + i + dy;
-                    if (nx >= 0 && nx < size && ny >= 0 && ny < size && grid[ny][nx] != 0) {
-                        return false;
-                    }
+    for (int offset = 0; offset < length; ++offset) {
+        int curX = x + (horizontal ? offset : 0);
+        int curY = y + (horizontal ? 0 : offset);
+
+        if (curX < 0 || curX >= size || curY < 0 || curY >= size) return false;
+
+        for (int dx = -1; dx <= 1; ++dx) {
+            for (int dy = -1; dy <= 1; ++dy) {
+                int nx = curX + dx;
+                int ny = curY + dy;
+                if (nx >= 0 && nx < size && ny >= 0 && ny < size && grid[ny][nx] != 0) {
+                    return false;
                 }
             }
         }
