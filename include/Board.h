@@ -13,6 +13,8 @@ public:
 
     bool shoot(int x, int y);
 
+    void markSurroundingCellsAsMissed(const Ship& ship);
+
     void display(bool showShips) const;
 
     void displayRow(int y, bool showShips) const;

@@ -17,6 +17,20 @@ bool Board::placeShip(int x, int y, int length, bool horizontal) {
     return true;
 }
 
+void Board::markSurroundingCellsAsMissed(const Ship &ship) {
+    for (const auto &coord: ship.getCoordinates()) {
+        for (int dx = -1; dx <= 1; ++dx) {
+            for (int dy = -1; dy <= 1; ++dy) {
+                int nx = coord.first + dx;
+                int ny = coord.second + dy;
+                if (nx >= 0 && nx < size && ny >= 0 && ny < size && grid[ny][nx] == 0) {
+                    grid[ny][nx] = -1; // Отмечаем как промах
+                }
+            }
+        }
+    }
+}
+
 bool Board::shoot(int x, int y) {
     if (x < 0 || x >= size || y < 0 || y >= size) {
         std::cout << "Выстрел за пределы поля.\n";
@@ -28,11 +42,16 @@ bool Board::shoot(int x, int y) {
     }
 
     if (grid[y][x] == 1) {
-        for (auto& ship : ships) {
+        for (auto &ship: ships) {
             if (ship->containsPoint(x, y)) {
                 ship->hit(x, y);
                 grid[y][x] = 2;
-                std::cout << (ship->isSunk() ? "Корабль потоплен!\n" : "Попадание!\n");
+                if (ship->isSunk()) {
+                    std::cout << "Корабль потоплен!\n";
+                    markSurroundingCellsAsMissed(*ship);
+                } else {
+                    std::cout << "Попадание!\n";
+                }
                 display(false);
                 return true;
             }
