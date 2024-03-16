@@ -63,9 +63,9 @@ int main() {
     HumanPlayer humanPlayer("Игрок");
     AIPlayer aiPlayer("Компьютер");
 
-    humanPlayer.placeShips(humanBoard);
+//    humanPlayer.placeShips(humanBoard); // for test
     placeShipsManually(humanPlayer, humanBoard);
-//    aiPlayer.placeShips(aiBoard); // got test
+    aiPlayer.placeShips(aiBoard);
 
     std::cout << "Начало игры 'Морской бой'!\n";
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -74,7 +74,7 @@ int main() {
     while (!humanBoard.isGameOver() && !aiBoard.isGameOver()) {
         std::cout << "\nПоле противника:\t\t\tВаше поле:\n";
         for (int y = 0; y < humanBoard.getSize(); ++y) {
-            aiBoard.displayRow(y, true);
+            aiBoard.displayRow(y, false);
             std::cout << "\t";
             humanBoard.displayRow(y, true);
             std::cout << "\n";
