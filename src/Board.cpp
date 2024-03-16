@@ -41,24 +41,6 @@ bool Board::shoot(int x, int y) {
     return false;
 }
 
-//void Board::display() const {
-//    for (const auto &row: grid) {
-//        for (int cell: row) {
-//            switch (cell) {
-//                case 1:
-//                    std::cout << "S ";
-//                    break;
-//                case -1:
-//                    std::cout << "* ";
-//                    break;
-//                default:
-//                    std::cout << ". ";
-//            }
-//        }
-//        std::cout << "\n";
-//    }
-//}
-
 void Board::display(bool showShips) const {
     std::cout << "  ";
     for (int i = 0; i < size; ++i) {
