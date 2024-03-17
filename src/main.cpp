@@ -69,8 +69,18 @@ int main() {
     HumanPlayer humanPlayer("Игрок");
     AIPlayer aiPlayer("Компьютер");
 
-//    humanPlayer.placeShips(humanBoard); // for test
-    placeShipsManually(humanPlayer, humanBoard);
+    char choice;
+    std::cout << "Выберите режим расстановки кораблей: (r) вручную, (a) автоматически: ";
+    std::cin >> choice;
+    if (choice == 'r' || choice == 'R') {
+        placeShipsManually(humanPlayer, humanBoard);
+    } else if (choice == 'a' || choice == 'A') {
+        humanPlayer.placeShips(humanBoard);
+    } else {
+        std::cout << "Неверный выбор. Выход из программы.\n";
+        return 1;
+    }
+
     aiPlayer.placeShips(aiBoard);
 
     std::cout << "Начало игры 'Морской бой'!\n";
