@@ -25,9 +25,6 @@ void printRules() {
             << "4. После расстановки всех кораблей начнется бой с компьютером."
             << std::endl;
     std::cout
-            << "Управление: введите 'r' для перестановки кораблей, 'b' для начала боя."
-            << std::endl;
-    std::cout
             << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             << std::endl;
 }
@@ -70,9 +67,9 @@ int main() {
     AIPlayer aiPlayer("Компьютер");
 
     char choice;
-    std::cout << "Выберите режим расстановки кораблей: (r) вручную, (a) автоматически: ";
+    std::cout << "Выберите режим расстановки кораблей: (m) вручную, (a) автоматически: ";
     std::cin >> choice;
-    if (choice == 'r' || choice == 'R') {
+    if (choice == 'm' || choice == 'M') {
         placeShipsManually(humanPlayer, humanBoard);
     } else if (choice == 'a' || choice == 'A') {
         humanPlayer.placeShips(humanBoard);
