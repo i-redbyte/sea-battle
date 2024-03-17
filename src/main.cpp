@@ -40,12 +40,18 @@ void placeShipsManually(HumanPlayer &player, Board &board) {
             board.display(true);
             std::cout << "Осталось расставить " << shipsToPlace[i] << " " << (i + 1) << "-палубных кораблей."
                       << std::endl;
-            std::cout << "Введите координаты и ориентацию для " << (i + 1) << "-палубного корабля: ";
             int x, y;
             char orientation;
-            std::cin >> x >> y >> orientation;
-            bool horizontal = orientation == 'h' || orientation == 'H';
+            if (i != 0) {
+                std::cout << "Введите координаты и ориентацию для " << (i + 1) << "-палубного корабля: ";
+                std::cin >> x >> y >> orientation;
 
+            } else {
+                std::cout << "Введите только координаты для 1-палубного корабля: ";
+                std::cin >> x >> y;
+                orientation = 'h';
+            }
+            bool horizontal = orientation == 'h' || orientation == 'H';
             if (board.canPlaceShip(x, y, i + 1, horizontal) && board.placeShip(x, y, i + 1, horizontal)) {
                 shipsToPlace[i]--;
             } else {
