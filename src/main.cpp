@@ -1,12 +1,10 @@
 #include <iostream>
-#include <limits>
 #include "Board.h"
 #include "HumanPlayer.h"
 #include "AIPlayer.h"
 
 void clearInputStream() {
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    HumanPlayer::clearInputStream();
 }
 
 void printRules() {

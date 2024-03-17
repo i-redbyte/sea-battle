@@ -13,7 +13,7 @@ public:
 
     void placeShips(Board& board) override;
 
-    static void clearInputStream() {
+    static void clearInputStream() { // move to utils
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
