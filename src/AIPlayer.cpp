@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <random>
+#include <iostream>
 
 void AIPlayer::placeShips(Board& board) {
     static std::mt19937 gen(static_cast<unsigned int>(std::time(nullptr)));
@@ -30,6 +31,7 @@ void AIPlayer::makeMove(Board& enemyBoard) {
     do {
         int x = std::rand() % enemyBoard.getSize();
         int y = std::rand() % enemyBoard.getSize();
+        std::cout << "Компьютер стреляет по координатам: (" << x << ", " << y << ")" << std::endl;
         hitAgain = enemyBoard.shoot(x, y);
     } while (hitAgain);
 }
