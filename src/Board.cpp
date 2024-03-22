@@ -107,10 +107,9 @@ void Board::displayRow(int y, bool showShips) const {
 }
 
 bool Board::isGameOver() const {
-    for (const auto &ship: ships) {
-        if (!ship->isSunk()) return false;
-    }
-    return true;
+    return std::ranges::all_of(ships.begin(), ships.end(), [](const auto& ship) {
+        return ship->isSunk();
+    });
 }
 
 bool Board::checkPlacement(int x, int y, int length, bool horizontal) const {
