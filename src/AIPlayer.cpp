@@ -3,13 +3,13 @@
 #include <random>
 #include <iostream>
 
-void AIPlayer::placeShips(Board& board) {
+void AIPlayer::placeShips(Board &board) {
     static std::mt19937 gen(static_cast<unsigned int>(std::time(nullptr)));
     std::uniform_int_distribution<> dis(0, board.getSize() - 1);
     std::uniform_int_distribution<> disBool(0, 1);
     std::vector<int> shipLengths = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1};
 
-    for (int length : shipLengths) {
+    for (int length: shipLengths) {
         bool placed = false;
         while (!placed) {
             int x = dis(gen);
@@ -24,15 +24,26 @@ void AIPlayer::placeShips(Board& board) {
     }
 }
 
-void AIPlayer::makeMove(Board& enemyBoard) {
-    std::pair<int, int> bestMove = calculateBestMove(enemyBoard);
-    int x = bestMove.first;
-    int y = bestMove.second;
-    std::cout << "Компьютер стреляет по координатам: (" << x << ", " << y << ")" << std::endl;
-    enemyBoard.shoot(x, y);
+void AIPlayer::makeMove(Board &enemyBoard) {
+    bool hitAgain;
+    do {
+        if (enemyBoard.isGameOver()) return;
+
+        std::pair<int, int> bestMove = calculateBestMove(enemyBoard);
+        int x = bestMove.first;
+        int y = bestMove.second;
+
+        std::cout << "Компьютер стреляет по координатам: (" << x << ", " << y << ")" << std::endl;
+        hitAgain = enemyBoard.shoot(x, y);
+
+        if (hitAgain) {
+            std::cout << "Компьютер делает еще один ход из-за попадания.\n";
+        }
+    } while (hitAgain && !enemyBoard.isGameOver());
 }
 
-std::pair<int, int> AIPlayer::calculateBestMove(Board& enemyBoard) {
+
+std::pair<int, int> AIPlayer::calculateBestMove(Board &enemyBoard) {
     static std::mt19937 gen(static_cast<unsigned int>(std::time(nullptr)));
     std::vector<std::pair<int, int>> potentialMoves;
     for (int x = 0; x < enemyBoard.getSize(); ++x) {
