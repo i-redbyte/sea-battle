@@ -12,6 +12,9 @@ public:
     void makeMove(Board &board) override;
 
     void placeShips(Board &board) override;
+
+private:
+    static std::pair<int, int> calculateBestMove(Board &enemyBoard);
 };
 
 #endif // AIPLAYER_H

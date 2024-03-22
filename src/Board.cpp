@@ -147,3 +147,26 @@ bool Board::canPlaceShip(int x, int y, int length, bool horizontal) const {
     }
     return true;
 }
+
+bool Board::hasBeenShot(int x, int y) const {
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        std::cerr << "Координаты за пределами доски.\n";
+        return false;
+    }
+    return grid[y][x] == -1 || grid[y][x] == 2;
+}
+
+bool Board::isNextToHit(int x, int y) const {
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            int nx = x + dx;
+            int ny = y + dy;
+            if (nx >= 0 && nx < size && ny >= 0 && ny < size) {
+                if (grid[ny][nx] == 2) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}

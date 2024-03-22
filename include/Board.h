@@ -13,7 +13,7 @@ public:
 
     bool shoot(int x, int y);
 
-    void markSurroundingCellsAsMissed(const Ship& ship);
+    void markSurroundingCellsAsMissed(const Ship &ship);
 
     void display(bool showShips) const;
 
@@ -24,6 +24,10 @@ public:
     int getSize() const { return size; }
 
     bool canPlaceShip(int x, int y, int length, bool horizontal) const;
+
+    bool hasBeenShot(int x, int y) const;
+
+    bool isNextToHit(int x, int y) const;
 
 private:
     int size;

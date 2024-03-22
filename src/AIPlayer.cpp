@@ -1,5 +1,4 @@
 #include "AIPlayer.h"
-#include <cstdlib>
 #include <ctime>
 #include <random>
 #include <iostream>
@@ -25,14 +24,39 @@ void AIPlayer::placeShips(Board& board) {
     }
 }
 
-
 void AIPlayer::makeMove(Board& enemyBoard) {
-    bool hitAgain;
-    do {
-        int x = std::rand() % enemyBoard.getSize();
-        int y = std::rand() % enemyBoard.getSize();
-        std::cout << "Компьютер стреляет по координатам: (" << x << ", " << y << ")" << std::endl;
-        hitAgain = enemyBoard.shoot(x, y);
-    } while (hitAgain);
+    std::pair<int, int> bestMove = calculateBestMove(enemyBoard);
+    int x = bestMove.first;
+    int y = bestMove.second;
+    std::cout << "Компьютер стреляет по координатам: (" << x << ", " << y << ")" << std::endl;
+    enemyBoard.shoot(x, y);
 }
+
+std::pair<int, int> AIPlayer::calculateBestMove(Board& enemyBoard) {
+    static std::mt19937 gen(static_cast<unsigned int>(std::time(nullptr)));
+    std::vector<std::pair<int, int>> potentialMoves;
+    for (int x = 0; x < enemyBoard.getSize(); ++x) {
+        for (int y = 0; y < enemyBoard.getSize(); ++y) {
+            if (!enemyBoard.hasBeenShot(x, y)) {
+                if (enemyBoard.isNextToHit(x, y)) {
+                    potentialMoves.emplace_back(x, y);
+                }
+            }
+        }
+    }
+
+    if (potentialMoves.empty()) {
+        for (int x = 0; x < enemyBoard.getSize(); ++x) {
+            for (int y = 0; y < enemyBoard.getSize(); ++y) {
+                if (!enemyBoard.hasBeenShot(x, y)) {
+                    potentialMoves.emplace_back(x, y);
+                }
+            }
+        }
+    }
+
+    std::uniform_int_distribution<> dis(0, potentialMoves.size() - 1);
+    return potentialMoves[dis(gen)];
+}
+
 
