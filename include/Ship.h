@@ -8,13 +8,13 @@ class Ship {
 public:
     Ship(int length, int x, int y, bool horizontal);
 
-    bool isSunk() const;
+    [[nodiscard]] bool isSunk() const;
 
-    bool containsPoint(int x, int y) const;
+    [[nodiscard]] bool containsPoint(int x, int y) const;
 
     bool hit(int x, int y);
 
-    const std::vector<std::pair<int, int>>& getCoordinates() const;
+    [[nodiscard]] const std::vector<std::pair<int, int>>& getCoordinates() const;
 
 private:
     std::vector<std::pair<int, int>> coordinates;

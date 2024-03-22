@@ -19,22 +19,22 @@ public:
 
     void displayRow(int y, bool showShips) const;
 
-    bool isGameOver() const;
+    [[nodiscard]] bool isGameOver() const;
 
-    int getSize() const { return size; }
+    [[nodiscard]] int getSize() const { return size; }
 
-    bool canPlaceShip(int x, int y, int length, bool horizontal) const;
+    [[nodiscard]] bool canPlaceShip(int x, int y, int length, bool horizontal) const;
 
-    bool hasBeenShot(int x, int y) const;
+    [[nodiscard]] bool hasBeenShot(int x, int y) const;
 
-    bool isNextToHit(int x, int y) const;
+    [[nodiscard]] bool isNextToHit(int x, int y) const;
 
 private:
     int size;
     std::vector<std::vector<int>> grid;
     std::vector<std::shared_ptr<Ship>> ships;
 
-    bool checkPlacement(int x, int y, int length, bool horizontal) const;
+    [[nodiscard]] bool checkPlacement(int x, int y, int length, bool horizontal) const;
 };
 
 #endif // BOARD_H
